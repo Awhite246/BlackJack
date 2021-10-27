@@ -12,10 +12,11 @@ struct ContentView: View {
     @State private var cardBack = 8
     @State private var screen = "home"
     @State private var charNum = 0
+    @State private var userName = ""
     @State private var logoAnimate = false
     @State private var cardAnimate = false
-    @State private var charPics = [String]()
-    @State private var userNames = [String]()
+    @State private var charPics = ["","","",""]
+    @State private var userNames = ["","","",""]
     var body: some View {
         VStack {
             switch (screen) {
@@ -42,16 +43,12 @@ struct ContentView: View {
                     }
                     .font(.title2)
                     .padding(.top, 70)
-                    .disabled(userNames.count < Int(numPlayers))
+                    .disabled((userNames[0] == "") || (userNames[1] == "" && numPlayers > 1) || (userNames[2] == "" && numPlayers > 2) || (userNames[3]) == "" && numPlayers > 3)
                     Button ("Character Select") {
                         screen = "username"
                     }
                     .font(.title2)
                     .padding(25)
-                }
-            case "game":
-                Group {
-                    Text("test")
                 }
             case "username":
                 Group {
@@ -62,23 +59,30 @@ struct ContentView: View {
                         ForEach (0..<4) { i in
                             HStack {
                                 if Int(numPlayers) > i {
-                                    Button (userNames.count < i + 1 ? "Player \(i + 1)" : "\(userNames[i])") {
+                                    Button (userNames[i] == "" ? "Player \(i + 1)" : "\(userNames[i])") {
                                         screen = "character"
                                         charNum = i
+                                        userName = userNames[charNum]
                                     }
                                     .padding()
-                                    Spacer()
-                                    Image (charPics.count < i + 1 ? "User5" : "\(charPics[i])")
-                                        .resizable()
-                                        .frame(width: 40, height: 50, alignment: .center)
-                                        .aspectRatio(contentMode: .fit)
-                                        .grayscale(charPics.count < i + 1 ? 0.99 : 0)
-                                        .blur(radius: charPics.count < i + 1 ? 1 : 0)
                                 } else {
-                                    Text("Empty")
-                                        .foregroundColor(.gray)
-                                        .padding()
+                                    if (userNames[i] == ""){
+                                        Text("Empty")
+                                            .foregroundColor(.gray)
+                                            .padding()
+                                    } else {
+                                        Text(userNames[i])
+                                            .foregroundColor(.gray)
+                                            .padding()
+                                    }
                                 }
+                                Spacer()
+                                Image (charPics[i] == "" ? "User5" : "\(charPics[i])")
+                                    .resizable()
+                                    .frame(width: 40, height: 50, alignment: .center)
+                                    .aspectRatio(contentMode: .fit)
+                                    .grayscale((charPics[i] != "") && (Int(numPlayers) > i) ? 0 : 0.99)
+                                    .blur(radius: (charPics[i] != "") && (Int(numPlayers) > i) ? 0 : 1)
                             }
                         }
                     }
@@ -112,7 +116,52 @@ struct ContentView: View {
                 }
             case "character" :
                 Group {
-                    Text("")
+                    Text("Character Select")
+                        .font(.title)
+                        .fontWeight(.bold)
+                        .padding()
+                    LazyVGrid(columns: Array(repeating: GridItem(.fixed(120), spacing: 0),count: 3), spacing: 19, content: {
+                        ForEach(0..<12){ index in
+                            Image("User\(1 + index)")
+                                .resizable()
+                                .frame(width: 45, height: 70, alignment: .center)
+                                .aspectRatio(contentMode: .fit)
+                                .border(Color.gray, width: 1)
+                                .grayscale(charPics.contains("User\(1+index)") ? 0.9 : 0)
+                                .blur(radius: charPics.contains("User\(1+index)") ? 2 : 0)
+                                .onTapGesture {
+                                    if (!charPics.contains("User\(1+index)")){
+                                        charPics[charNum] = "User\(index + 1)"
+                                    }
+                                }
+                        }
+                    })
+                    Text("Selected Character")
+                        .padding(.top, 20)
+                    Image(charPics[charNum] != "" ? charPics[charNum] : "User5")
+                        .resizable()
+                        .frame(width: 45, height: 70, alignment: .center)
+                        .aspectRatio(contentMode: .fit)
+                        .border(Color.white, width: 1)
+                        .grayscale(charPics[charNum] != "" ? 0 : 0.9)
+                        .blur(radius: charPics[charNum] != "" ? 0 : 2)
+                    TextField("Username", text: $userName)
+                        .textFieldStyle(RoundedBorderTextFieldStyle())
+                        .multilineTextAlignment(.center)
+                        .frame(width: 200, height: 30, alignment: .center)
+                        .font(.body)
+                        .padding()
+                    Spacer()
+                    Button("Done") {
+                        userNames[charNum] = userName
+                        screen = "username"
+                    }
+                    .disabled(charPics[charNum] == "" || userName == "")
+                    .padding()
+                }
+            case "game":
+                Group {
+                    Text("test")
                 }
             default:
                 Group {
