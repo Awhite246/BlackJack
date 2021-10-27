@@ -8,64 +8,61 @@
 import SwiftUI
 
 struct TestView: View {
+    @State private var numPlayers = 1.0
+    @State private var cardBack = 8
+    @State private var screen = "home"
+    @State private var charNum = 0
+    @State private var userName = ""
+    @State private var logoAnimate = false
+    @State private var cardAnimate = false
     @State private var charPics = [String]()
     @State private var userNames = [String]()
-    @State private var cardAnimate = false;
-    @State private var charCount = 1.0
-    @State private var numPlayers = 1.0
-    @State private var screen = "username"
-    @State private var cardBack = 8
     var body : some View {
         VStack {
             Text("Character Select")
                 .font(.title)
                 .fontWeight(.bold)
-            Form {
-                ForEach (0..<4) { i in
-                    HStack {
-                        if Int(numPlayers) > i {
-                            Button (userNames.count < i + 1 ? "Player \(i + 1)" : "\(userNames[i])") {
-                                screen = "character\(i)"
+                .padding()
+            LazyVGrid(columns: Array(repeating: GridItem(.fixed(120), spacing: 0),count: 3), spacing: 19, content: {
+                var offCount = 0
+                ForEach(0..<12 - charPics.count){ index in
+                    if (charPics.contains("User\(index + 1 + offCount)")){
+                        offCount += 1
+                    }
+                    Image("User\(index + 1 + offCount)")
+                        .resizable()
+                        .frame(width: 45, height: 70, alignment: .center)
+                        .aspectRatio(contentMode: .fit)
+                        .border(Color.gray, width: 1)
+                        .onTapGesture {
+                            if charPics.count <= charNum {
+                                charPics.insert("User\(index + 1)", at: index)
+                            } else {
+                                charPics[charNum] = "User\(index + 1)"
                             }
-                            .padding()
-                            Spacer()
-                            Image (charPics.count < i + 1 ? "User5" : "\(charPics[i])")
-                                .resizable()
-                                .frame(width: 40, height: 50, alignment: .center)
-                                .aspectRatio(contentMode: .fit)
-                                .grayscale(charPics.count < i + 1 ? 0.99 : 0)
-                                .blur(radius: charPics.count < i + 1 ? 1 : 0)
-                        } else {
-                            Text("Empty")
-                                .foregroundColor(.gray)
-                                .padding()
                         }
-                    }
                 }
-            }
-            .frame(width: 400, height: 300)
-            .padding()
-            HStack {
-                Image("Back\(cardBack)")
-                    .resizable()
-                    .frame(width: 200, height: 300, alignment: .leading)
-                    .aspectRatio(contentMode: .fit)
-                    .rotationEffect(.init(degrees: cardAnimate ? -3 : 1))
-                    .animation(
-                        Animation.linear(duration: 0.1)
-                            .delay(0.05)
-                            .repeatCount(2, autoreverses: true)
-                    )
-                    .onTapGesture{
-                        cardBack = 8 % (cardBack + 1)
-                        
-                    }
-                Text("Click to change the back of your cards")
-                    
-            }
-            Button("Back"){
+            })
+            Text("Selected Character")
+                .padding(.top, 20)
+            Image(charPics.count > charNum ? charPics[charNum] : "User5")
+                .resizable()
+                .frame(width: 45, height: 70, alignment: .center)
+                .aspectRatio(contentMode: .fit)
+                .border(Color.white, width: 1)
+                .grayscale(charPics.count > charNum ? 0 : 0.9)
+                .blur(radius: charPics.count > charNum ? 0 : 2)
+            TextField("Username", text: $userName)
+                .textFieldStyle(RoundedBorderTextFieldStyle())
+                .multilineTextAlignment(.center)
+                .frame(width: 200, height: 30, alignment: .center)
+                .font(.body)
+                .padding()
+            Spacer()
+            Button("Done") {
                 
             }
+            .disabled(charPics.count >= charNum || userName == "")
             .padding()
         }
         .preferredColorScheme(.dark)
