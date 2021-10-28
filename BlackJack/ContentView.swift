@@ -33,7 +33,7 @@ struct ContentView: View {
                         .rotationEffect(.init(degrees: logoAnimate ? -8 : 8))
                         .animation(Animation.linear(duration: 5).delay(0.25).repeatForever())
                         .onAppear(perform: {
-                            logoAnimate = true;
+                            logoAnimate = true
                         })
                     Slider(value: $numPlayers, in: 1...4, step: 1.0)
                         .padding()
@@ -46,6 +46,7 @@ struct ContentView: View {
                     .disabled((userNames[0] == "") || (userNames[1] == "" && numPlayers > 1) || (userNames[2] == "" && numPlayers > 2) || (userNames[3]) == "" && numPlayers > 3)
                     Button ("Character Select") {
                         screen = "username"
+                        logoAnimate = false
                     }
                     .font(.title2)
                     .padding(25)

@@ -15,54 +15,30 @@ struct TestView: View {
     @State private var userName = ""
     @State private var logoAnimate = false
     @State private var cardAnimate = false
-    @State private var charPics = [String]()
-    @State private var userNames = [String]()
+    @State private var charPics = ["","","",""]
+    @State private var userNames = ["","","",""]
+    @State private var cardDeck = ["DiamondA","Diamond2","Diamond3","Diamond4","Diamond5","Diamond6","Diamond7","Diamond8","Diamond9","Diamond10","DiamondJ","DiamondQ","DiamondK","ClubA","Club2","Club3","Club4","Club5","Club6","Club7","Club8","Club9","Club10","ClubJ","ClubQ","ClubK","HeartA","Heart2","Heart3","Heart4","Heart5","Heart6","Heart7","Heart8","Heart9","Heart10","HeartJ","HeartQ","HeartK","SpadeA","Spade2","Spade3","Spade4","Spade5","Spade6","Spade7","Spade8","Spade9","Spade10","SpadeJ","SpadeQ","SpadeK"]
+    @State private var cardDeckRandom = ["DiamondA","Diamond2","Diamond3","Diamond4","Diamond5","Diamond6","Diamond7","Diamond8","Diamond9","Diamond10","DiamondJ","DiamondQ","DiamondK","ClubA","Club2","Club3","Club4","Club5","Club6","Club7","Club8","Club9","Club10","ClubJ","ClubQ","ClubK","HeartA","Heart2","Heart3","Heart4","Heart5","Heart6","Heart7","Heart8","Heart9","Heart10","HeartJ","HeartQ","HeartK","SpadeA","Spade2","Spade3","Spade4","Spade5","Spade6","Spade7","Spade8","Spade9","Spade10","SpadeJ","SpadeQ","SpadeK"]
+    @State private var switchy = false
     var body : some View {
         VStack {
-            Text("Character Select")
-                .font(.title)
-                .fontWeight(.bold)
-                .padding()
-            LazyVGrid(columns: Array(repeating: GridItem(.fixed(120), spacing: 0),count: 3), spacing: 19, content: {
-                var offCount = 0
-                ForEach(0..<12 - charPics.count){ index in
-                    if (charPics.contains("User\(index + 1 + offCount)")){
-                        offCount += 1
-                    }
-                    Image("User\(index + 1 + offCount)")
+            ForEach (0..<5) { i in
+                HStack {
+                    Text("Card \(cardDeckRandom[i])\t")
+                        .font(.title)
+                        .padding()
+                        .frame(alignment: .leading)
+                    Image("\(cardDeckRandom[i])")
                         .resizable()
-                        .frame(width: 45, height: 70, alignment: .center)
+                        .frame(width: 75, height: 110, alignment: .trailing)
                         .aspectRatio(contentMode: .fit)
-                        .border(Color.gray, width: 1)
-                        .onTapGesture {
-                            if charPics.count <= charNum {
-                                charPics.insert("User\(index + 1)", at: index)
-                            } else {
-                                charPics[charNum] = "User\(index + 1)"
-                            }
-                        }
+                        .padding()
                 }
-            })
-            Text("Selected Character")
-                .padding(.top, 20)
-            Image(charPics.count > charNum ? charPics[charNum] : "User5")
-                .resizable()
-                .frame(width: 45, height: 70, alignment: .center)
-                .aspectRatio(contentMode: .fit)
-                .border(Color.white, width: 1)
-                .grayscale(charPics.count > charNum ? 0 : 0.9)
-                .blur(radius: charPics.count > charNum ? 0 : 2)
-            TextField("Username", text: $userName)
-                .textFieldStyle(RoundedBorderTextFieldStyle())
-                .multilineTextAlignment(.center)
-                .frame(width: 200, height: 30, alignment: .center)
-                .font(.body)
-                .padding()
-            Spacer()
-            Button("Done") {
-                
             }
-            .disabled(charPics.count >= charNum || userName == "")
+            .frame(width: 500, height: 110, alignment: .center)
+            Button ("Randomize") {
+                cardDeckRandom = cardDeck.shuffled()
+            }
             .padding()
         }
         .preferredColorScheme(.dark)
