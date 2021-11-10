@@ -17,18 +17,18 @@ struct ContentView: View {
     @State private var cardAnimate = false
     @State private var charPics = ["","","",""]
     @State private var userNames = ["","","",""]
-    @State private var cardDeck = ["DiamondA","Diamond2","Diamond3","Diamond4","Diamond5","Diamond6","Diamond7","Diamond8","Diamond9","Diamond10","DiamondJ","DiamondQ","DiamondK","ClubA","Club2","Club3","Club4","Club5","Club6","Club7","Club8","Club9","Club10","ClubJ","ClubQ","ClubK","HeartA","Heart2","Heart3","Heart4","Heart5","Heart6","Heart7","Heart8","Heart9","Heart10","HeartJ","HeartQ","HeartK","SpadeA","Spade2","Spade3","Spade4","Spade5","Spade6","Spade7","Spade8","Spade9","Spade10","SpadeJ","SpadeQ","SpadeK"]
     var body: some View {
         ZStack {
             VStack {
+                //backround of app
                 Group {
                     if screen == "game" {
                         Image("Background1")
-                            .frame(width: 400, height: 570, alignment: .top)
+                            .frame(width: 400, height: 605, alignment: .top)
                             .colorMultiply(.blue)
                         Image("Background2")
                             .resizable()
-                            .frame(width: 400, height: 300, alignment: .top)
+                            .frame(width: 400, height: 250, alignment: .top)
                             .border(Color.gray, width: 3)
                     }
                 }
@@ -36,6 +36,7 @@ struct ContentView: View {
             VStack {
                 switch (screen) {
                 case "home":
+                    //homescreen
                     Group {
                         Text("Black Jack")
                             .font(.title)
@@ -68,6 +69,7 @@ struct ContentView: View {
                         .padding(25)
                     }
                 case "username":
+                    //character select screen
                     Group {
                         Text("Character Select")
                             .font(.title)
@@ -82,17 +84,16 @@ struct ContentView: View {
                                             userName = userNames[charNum]
                                         }
                                         .padding()
+                                    } else if (userNames[i] == ""){
+                                        Text("Empty")
+                                            .foregroundColor(.gray)
+                                            .padding()
                                     } else {
-                                        if (userNames[i] == ""){
-                                            Text("Empty")
-                                                .foregroundColor(.gray)
-                                                .padding()
-                                        } else {
-                                            Text(userNames[i])
-                                                .foregroundColor(.gray)
-                                                .padding()
-                                        }
+                                        Text(userNames[i])
+                                            .foregroundColor(.gray)
+                                            .padding()
                                     }
+                                    
                                     Spacer()
                                     Image (charPics[i] == "" ? "User5" : "\(charPics[i])")
                                         .resizable()
@@ -133,6 +134,7 @@ struct ContentView: View {
                         .padding()
                     }
                 case "character" :
+                    //choose your character and name menu
                     Group {
                         Text("Character Select")
                             .font(.title)
@@ -178,8 +180,9 @@ struct ContentView: View {
                         .padding()
                     }
                 case "game":
+                    //blackjack game
                     Group {
-                        Text("test")
+                        GameView(numPlayers: Int(numPlayers), cardBack: cardBack, deckCount: 2, charPics: charPics, userNames: userNames)
                     }
                 default:
                     Group {
@@ -187,9 +190,6 @@ struct ContentView: View {
                     }
                 }
             }
-            .onAppear(perform: {
-                cardDeck = cardDeck.shuffled()
-            })
             .preferredColorScheme(.dark)
         }
     }

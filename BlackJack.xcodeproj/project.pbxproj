@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		3F3DE797272747FC0082ABD1 /* TestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F3DE796272747FC0082ABD1 /* TestView.swift */; };
+		3F59034D273B1AB000191DA5 /* GameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F59034C273B1AAF00191DA5 /* GameView.swift */; };
 		3FD1634A2727014D00575323 /* BlackJackApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FD163492727014D00575323 /* BlackJackApp.swift */; };
 		3FD1634C2727014D00575323 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FD1634B2727014D00575323 /* ContentView.swift */; };
 		3FD1634E2727015100575323 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3FD1634D2727015100575323 /* Assets.xcassets */; };
@@ -35,6 +36,7 @@
 
 /* Begin PBXFileReference section */
 		3F3DE796272747FC0082ABD1 /* TestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestView.swift; sourceTree = "<group>"; };
+		3F59034C273B1AAF00191DA5 /* GameView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameView.swift; sourceTree = "<group>"; };
 		3FD163462727014D00575323 /* BlackJack.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BlackJack.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3FD163492727014D00575323 /* BlackJackApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlackJackApp.swift; sourceTree = "<group>"; };
 		3FD1634B2727014D00575323 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -100,6 +102,7 @@
 				3FD163492727014D00575323 /* BlackJackApp.swift */,
 				3FD1634B2727014D00575323 /* ContentView.swift */,
 				3F3DE796272747FC0082ABD1 /* TestView.swift */,
+				3F59034C273B1AAF00191DA5 /* GameView.swift */,
 				3FD1634D2727015100575323 /* Assets.xcassets */,
 				3FD163522727015100575323 /* Info.plist */,
 				3FD1634F2727015100575323 /* Preview Content */,
@@ -264,6 +267,7 @@
 			files = (
 				3F3DE797272747FC0082ABD1 /* TestView.swift in Sources */,
 				3FD1634C2727014D00575323 /* ContentView.swift in Sources */,
+				3F59034D273B1AB000191DA5 /* GameView.swift in Sources */,
 				3FD1634A2727014D00575323 /* BlackJackApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
